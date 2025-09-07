@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlantID AI - Plant Identification Assistant</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">🌿</span>
+                <span class="logo-text">PlantID AI</span>
+            </div>
+            <div class="nav-links">
+                <button class="nav-btn active" data-section="home">Home</button>
+                <button class="nav-btn" data-section="identify">Identify</button>
+                <button class="nav-btn" data-section="history">History</button>
+                <button class="nav-btn" data-section="guide">Plant Guide</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1 class="hero-title">Discover Plants with <span class="text-green">AI Power</span></h1>
+                    <p class="hero-description">
+                        Upload or capture a photo of any plant and get instant identification with detailed care instructions. 
+                        Our advanced AI recognizes thousands of plant species with high accuracy.
+                    </p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary" onclick="switchSection('identify')">Start Identifying</button>
+                        <button class="btn btn-secondary" onclick="switchSection('guide')">Browse Plants</button>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/dd919fbd-7244-4012-9c2b-021170639527.png" alt="Beautiful botanical garden with diverse plant species in natural lighting" class="hero-img">
+                </div>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📸</div>
+                    <h3>Instant Recognition</h3>
+                    <p>Take a photo or upload an image and get immediate plant identification results powered by advanced AI.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌱</div>
+                    <h3>Care Instructions</h3>
+                    <p>Receive detailed care guides including watering, lighting, soil requirements, and seasonal care tips.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>Plant Database</h3>
+                    <p>Access comprehensive information about plant families, scientific names, and botanical characteristics.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>History Tracking</h3>
+                    <p>Keep track of all your plant identifications with searchable history and detailed records.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Identify Section -->
+        <section id="identify" class="section">
+            <div class="identify-container">
+                <h2 class="section-title">Plant Identification</h2>
+                
+                <!-- Upload Area -->
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-content">
+                        <div class="upload-icon">🌿</div>
+                        <h3>Upload Plant Image</h3>
+                        <p>Drop your image here or click to browse</p>
+                        <div class="upload-actions">
+                            <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                                Choose File
+                            </button>
+                            <button class="btn btn-secondary" id="cameraBtn">
+                                Use Camera
+                            </button>
+                        </div>
+                    </div>
+                    <input type="file" id="fileInput" accept="image/*" hidden>
+                </div>
+
+                <!-- Camera Preview -->
+                <div class="camera-container" id="cameraContainer" style="display: none;">
+                    <video id="cameraPreview" autoplay></video>
+                    <div class="camera-controls">
+                        <button class="btn btn-primary" id="captureBtn">Capture Photo</button>
+                        <button class="btn btn-secondary" id="closeCameraBtn">Cancel</button>
+                    </div>
+                </div>
+
+                <!-- Preview Area -->
+                <div class="preview-area" id="previewArea" style="display: none;">
+                    <h3>Image Preview</h3>
+                    <div class="preview-container">
+                        <img id="previewImage" alt="Plant preview">
+                        <div class="preview-actions">
+                            <button class="btn btn-primary" id="analyzeBtn">Analyze Plant</button>
+                            <button class="btn btn-secondary" id="clearBtn">Clear Image</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loading State -->
+                <div class="loading-container" id="loadingContainer" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <h3>Analyzing Your Plant...</h3>
+                    <p>Our AI is identifying the species and gathering detailed information.</p>
+                </div>
+
+                <!-- Results Area -->
+                <div class="results-area" id="resultsArea" style="display: none;">
+                    <h3>Identification Results</h3>
+                    <div class="results-content" id="resultsContent">
+                        <!-- Results will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- History Section -->
+        <section id="history" class="section">
+            <div class="history-container">
+                <div class="history-header">
+                    <h2 class="section-title">Identification History</h2>
+                    <div class="history-controls">
+                        <input type="text" id="searchHistory" placeholder="Search plants..." class="search-input">
+                        <button class="btn btn-secondary" id="clearHistoryBtn">Clear All</button>
+                    </div>
+                </div>
+                <div class="history-grid" id="historyGrid">
+                    <!-- History items will be populated by JavaScript -->
+                </div>
+                <div class="empty-history" id="emptyHistory">
+                    <div class="empty-icon">🌿</div>
+                    <h3>No Plants Identified Yet</h3>
+                    <p>Start identifying plants to see your history here.</p>
+                    <button class="btn btn-primary" onclick="switchSection('identify')">Identify Your First Plant</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Plant Guide Section -->
+        <section id="guide" class="section">
+            <div class="guide-container">
+                <h2 class="section-title">Plant Care Guide</h2>
+                <div class="guide-content">
+                    <div class="guide-categories">
+                        <button class="category-btn active" data-category="all">All Plants</button>
+                        <button class="category-btn" data-category="indoor">Indoor Plants</button>
+                        <button class="category-btn" data-category="outdoor">Outdoor Plants</button>
+                        <button class="category-btn" data-category="succulents">Succulents</button>
+                        <button class="category-btn" data-category="flowering">Flowering Plants</button>
+                    </div>
+                    <div class="plants-grid" id="plantsGrid">
+                        <!-- Plant guide items will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>PlantID AI</h4>
+                <p>Advanced plant identification powered by artificial intelligence.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Features</h4>
+                <ul>
+                    <li>AI Plant Recognition</li>
+                    <li>Care Instructions</li>
+                    <li>Plant Database</li>
+                    <li>History Tracking</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Technology</h4>
+                <ul>
+                    <li>Advanced AI Models</li>
+                    <li>Computer Vision</li>
+                    <li>Plant Taxonomy</li>
+                    <li>Real-time Analysis</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 PlantID AI. Advanced plant identification technology.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="scripts/ai-service.js"></script>
+    <script src="scripts/camera.js"></script>
+    <script src="scripts/history.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>
